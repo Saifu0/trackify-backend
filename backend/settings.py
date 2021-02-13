@@ -160,6 +160,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    "https://trackify-endpoints.herokuapp.com",
     "https://trackifytech.netlify.app",
     "http://localhost:8080",
     "http://127.0.0.1:9000",
