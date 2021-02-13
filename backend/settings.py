@@ -23,8 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-SECRET_KEY = os.environ.get(
-    'DJANGO_SECRET_KEY', 'c!=)2&vcw)q=d-zfkh%yf@7=k$kkds1e1ck92@)l+w5#enekf#')
+# SECRET_KEY = os.environ.get(
+#     'DJANGO_SECRET_KEY', 'c!=)2&vcw)q=d-zfkh%yf@7=k$kkds1e1ck92@)l+w5#enekf#')
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost',
                  '127.0.0.1', 'trackify-endpoints.herokuapp.com']
@@ -161,7 +163,6 @@ CORS_ALLOW_HEADERS = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://trackify-endpoints.herokuapp.com",
-    "https://trackifytech.netlify.app",
     "http://localhost:8080",
     "http://127.0.0.1:9000",
     "http://localhost:3000",
