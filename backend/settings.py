@@ -12,10 +12,15 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import dj_database_url
+import dotenv
 import os
+import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -29,7 +34,7 @@ SECRET_KEY = os.environ.get(
 # SECRET_KEY = os.environ.get('SECRET_KEY')
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost',
-                 '127.0.0.1', 'https://trackify-endpoints.herokuapp.com']
+                 '127.0.0.1', 'trackify-endpoints.herokuapp.com']
 
 
 # Application definition
@@ -82,15 +87,26 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'trackify',
+#         'USER': 'saifu',
+#         'PASSWORD': 'saifu123',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -168,3 +184,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:3001",
 ]
+
+# This should already be in your settings.py
+django_heroku.settings(locals())# This is new
+options = DATABASES['default'].get('OPTIONS', {})
+options.pop('sslmode', None)
