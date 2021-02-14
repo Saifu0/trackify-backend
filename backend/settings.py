@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get(
 # SECRET_KEY = os.environ.get('SECRET_KEY')
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost',
-                 '127.0.0.1', 'trackify-endpoints.herokuapp.com']
+                 '127.0.0.1', 'https://trackify-endpoints.herokuapp.com']
 
 
 # Application definition
@@ -139,12 +139,6 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'https://trackifytech.netlify.app/'
-)
 
 CORS_ALLOW_METHODS = [
     'DELETE',
