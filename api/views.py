@@ -14,6 +14,7 @@ from rest_framework.generics import (
 )
 from django.core import serializers
 from django.http import HttpResponse
+import json
 
 
 @api_view(['POST', ])
@@ -62,12 +63,15 @@ class CustomAuthToken(ObtainAuthToken):
 @api_view(['POST', ])
 def CreateNewOpening(request):
     if request.method == 'POST':
+        json_data = json.loads(request.body)
         user = Validate(request.META.get('HTTP_AUTHORIZATION'))
-        company = request.POST.get('company')
-        role = request.POST.get('role')
-        _status = request.POST.get('status')
-        notes = request.POST.get('notes')
-        applied_date = request.POST.get('applied_date')
+        company = json_data['company']
+        role = json_data['role']
+        _status = json_data['status']
+        notes = json_data['notes']
+        applied_date = json_data['applied_date']
+
+        print(user,company,role,_status,notes,applied_date)
 
         new_opening = Opening(
             user=user,
@@ -86,15 +90,16 @@ def CreateNewOpening(request):
 @api_view(['POST', ])
 def UpdateOpening(request):
     if request.method == 'POST':
-        company = request.POST.get('company')
-        role = request.POST.get('role')
-        _status = request.POST.get('status')
-        notes = request.POST.get('notes')
-        applied_date = request.POST.get('applied_date')
+        json_data = json.loads(request.body)
+        user = Validate(request.META.get('HTTP_AUTHORIZATION'))
+        company = json_data['company']
+        role = json_data['role']
+        _status = json_data['status']
+        notes = json_data['notes']
+        applied_date = json_data['applied_date']
+        opening_id = json_data['id']
 
-        opening_id = request.POST.get('id')
         opening = Opening.objects.get(id=opening_id)
-
         opening.company = company
         opening.role = role
         opening.status = _status

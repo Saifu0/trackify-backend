@@ -12,19 +12,26 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import dj_database_url
+import dotenv
 import os
+import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 SECRET_KEY = os.environ.get(
     'DJANGO_SECRET_KEY', 'c!=)2&vcw)q=d-zfkh%yf@7=k$kkds1e1ck92@)l+w5#enekf#')
+
+# SECRET_KEY = os.environ.get('SECRET_KEY')
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost',
                  '127.0.0.1', 'trackify-endpoints.herokuapp.com']
@@ -87,8 +94,19 @@ DATABASES = {
     }
 }
 
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'trackify',
+#         'USER': 'saifu',
+#         'PASSWORD': 'saifu123',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+
+# DATABASES = {}
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -134,7 +152,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
@@ -161,9 +179,13 @@ CORS_ALLOW_HEADERS = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://trackify-endpoints.herokuapp.com",
-    "https://trackifytech.netlify.app",
     "http://localhost:8080",
-    "http://127.0.0.1:9000",
+    "http://127.0.0.1:8000",
     "http://localhost:3000",
     "http://localhost:3001",
 ]
+
+# This should already be in your settings.py
+django_heroku.settings(locals())# This is new
+options = DATABASES['default'].get('OPTIONS', {})
+options.pop('sslmode', None)
