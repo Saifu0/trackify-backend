@@ -27,7 +27,7 @@ if os.path.isfile(dotenv_file):
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 SECRET_KEY = os.environ.get(
     'DJANGO_SECRET_KEY', 'c!=)2&vcw)q=d-zfkh%yf@7=k$kkds1e1ck92@)l+w5#enekf#')
 
@@ -87,12 +87,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # DATABASES = {
 #     'default': {
@@ -105,8 +105,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+# DATABASES = {}
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -180,7 +180,7 @@ CORS_ALLOW_HEADERS = [
 CORS_ALLOWED_ORIGINS = [
     "https://trackify-endpoints.herokuapp.com",
     "http://localhost:8080",
-    "http://127.0.0.1:9000",
+    "http://127.0.0.1:8000",
     "http://localhost:3000",
     "http://localhost:3001",
 ]
